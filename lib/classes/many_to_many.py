@@ -26,10 +26,11 @@ class Band:
         return band_concerts if len(band_concerts) > 0 else None
 
     def venues(self):
-        venues_set = set()
+        venues_list = []
         for concert in Band.concerts(self):
-            venues_set.add(concert.venue)
-        return list(venues_set) if len(venues_set) > 0 else None
+            if not(concert.venue in venues_list):
+                venues_list.append(concert.venue)
+        return venues_list if len(venues_list) > 0 else None
 
     def play_in_venue(self, venue, date):
         new_concert = Concert(date,self,venue)
@@ -121,3 +122,10 @@ class Venue:
         for concert in Venue.concerts(self):
             bands_set.add(concert.band)
         return list(bands_set) if len(bands_set) > 0 else None
+
+    def concert_on(self,date):
+        for concert in Venue.concerts(self):
+            if date == concert.date:
+                return concert
+        return None
+
