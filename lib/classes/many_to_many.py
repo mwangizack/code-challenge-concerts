@@ -40,6 +40,15 @@ class Concert:
         self.band = band
         self.venue = venue
 
+    @property
+    def date(self):
+        return self._date
+
+    @date.setter
+    def date(self, date):
+        if isinstance(date, str) and len(date) > 0:
+            self._date = date
+
     def hometown_show(self):
         pass
 
