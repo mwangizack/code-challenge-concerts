@@ -32,10 +32,18 @@ class Band:
         return list(venues_set) if len(venues_set) > 0 else None
 
     def play_in_venue(self, venue, date):
-        pass
+        new_concert = Concert(date,self,venue)
+        return new_concert
 
     def all_introductions(self):
-        pass
+        all_venues = Band.venues(self)
+        all_intros = []
+        if len(all_venues) == 0:
+            return None
+        else:
+            for venue in all_venues:
+                all_intros.append(f"Hello {venue.city}!!!!! We are {self.name} and we're from {self.hometown}")
+        return all_intros
 
 
 class Concert:
@@ -109,4 +117,7 @@ class Venue:
         return venue_concerts if len(venue_concerts) > 0 else None
 
     def bands(self):
-        pass
+        bands_set = set()
+        for concert in Venue.concerts(self):
+            bands_set.add(concert.band)
+        return list(bands_set) if len(bands_set) > 0 else None
