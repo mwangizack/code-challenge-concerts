@@ -22,10 +22,14 @@ class Band:
             self._hometown = hometown
 
     def concerts(self):
-        pass
+        band_concerts = [concert for concert in Concert.all if self == concert.band]
+        return band_concerts if len(band_concerts) > 0 else None
 
     def venues(self):
-        pass
+        venues_set = set()
+        for concert in Band.concerts(self):
+            venues_set.add(concert.venue)
+        return list(venues_set) if len(venues_set) > 0 else None
 
     def play_in_venue(self, venue, date):
         pass
@@ -35,10 +39,13 @@ class Band:
 
 
 class Concert:
+    all = []
+
     def __init__(self, date, band, venue):
         self.date = date
         self.band = band
         self.venue = venue
+        Concert.all.append(self)
 
     @property
     def date(self):
@@ -48,6 +55,24 @@ class Concert:
     def date(self, date):
         if isinstance(date, str) and len(date) > 0:
             self._date = date
+
+    @property
+    def band(self):
+        return self._band
+
+    @band.setter
+    def band(self, band):
+        if isinstance(band, Band):
+            self._band = band
+
+    @property
+    def venue(self):
+        return self._venue
+
+    @venue.setter
+    def venue(self, venue):
+        if isinstance(venue, Venue):
+            self._venue = venue
 
     def hometown_show(self):
         pass
@@ -80,7 +105,8 @@ class Venue:
             self._city = city
 
     def concerts(self):
-        pass
+        venue_concerts = [concert for concert in Concert.all if self == concert.venue]
+        return venue_concerts if len(venue_concerts) > 0 else None
 
     def bands(self):
         pass
